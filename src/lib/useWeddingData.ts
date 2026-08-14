@@ -1,14 +1,153 @@
 import { useEffect, useState } from "react";
 import { ref, onValue, set } from "firebase/database";
 import { db } from "./firebase";
-import {
-  couple as defaultCouple,
-  events as defaultEvents,
-  gallery as defaultGallery,
-  families as defaultFamilies,
-  photos as defaultPhotos,
-  type WeddingEvent,
-} from "@/data/wedding";
+import type { WeddingEvent } from "@/data/wedding";
+
+const defaultPhotos = {
+  heroPhotograph: "/images/hero_photograph.jpg",
+  secondImage: "/images/second_image.jpg",
+  awww: "/images/awww.jpg",
+  yes: "/images/yes.jpg",
+  yay: "/images/yay.jpg",
+  hey: "/images/hey.jpg",
+  aMoment: "/images/a_moment.jpg",
+  mesmarizing: "/images/mesmarizing.jpg",
+  ring: "/images/ring.jpg",
+  wedding: "/images/wedding.jpg",
+  fam: "/images/fam.jpg",
+  ganesha: "/images/ganesha.png",
+  monogram: "/images/monogram.png",
+};
+
+const defaultCouple = {
+  bride: {
+    name: "Hamsini Sriya Reddy",
+    detail: "MIM London Business School, London",
+  },
+  groom: {
+    name: "S. V. Janak Reddy",
+    detail: "Landscape Architect, Colorado State University, USA",
+  },
+  invocation: "|| Shri Ganeshaya Namah ||",
+  tagline: "A Celebration of Love, Tradition & Togetherness",
+  weddingDateLabel: "27 August 2026",
+  sumuhurtham: "Sumuhurtham · 11:07 AM",
+  city: "Hyderabad",
+  weddingISO: "2026-08-27T11:07:00+05:30",
+};
+
+const defaultFamilies = {
+  hosts: ["Sri. Medapati Anil Kumar Reddy", "Smt. Sharmila Reddy"],
+  hostsLine: "Cordially invite you and your family to grace the wedding of our beloved daughter",
+  brideGrand: [
+    "Grand D/o Late. Medapati Seetha Rama Reddy & Smt. Suseela Devi",
+    "and Sri Velagala Manohara Reddy & Smt. Padmavathi",
+  ],
+  groomParents: "(Only S/o Sri S. V. Mohan Reddy & Smt. Vijaya Manohari)",
+  groomGrand: ["(Grand S/o Sri S. V. Subha Reddy &", "Late Smt. S. V. Narayanamma)"],
+  regards: [
+    "Medapati Suseela,",
+    "Medapati Anil Reddy",
+    "Medapati Sharmila Reddy",
+    "Medapati Abhinav Siddharth Reddy",
+  ],
+  closingMessage: [
+    "We extend a warm & heartfelt invitation to you and your family to join us in celebrating a beautiful union.",
+    "As two families come together in joy, your presence would add immeasurably to the happiness of this special occasion.",
+  ],
+};
+
+const defaultEvents: WeddingEvent[] = [
+  {
+    index: "01",
+    title: "Sundowner Affair",
+    subtitle: "With Haldi & Henna",
+    message: "You are invited to an evening of sunshine, traditions & togetherness",
+    day: "Monday",
+    dateNum: "24",
+    month: "Aug",
+    year: "2026",
+    time: "03:00 PM onwards",
+    timeNote: "Followed by High Tea & Dinner",
+    venueName: "Ridhira Retreat",
+    venueAddress: "Gandipet, Hyderabad",
+    dresscode: "Pastels only",
+    dresscodeDetail: "Peach · Baby Pink · Beige · Champagne · Ivory",
+    image: "/images/ring.jpg",
+    imagePosition: "50% 30%",
+    mood: "sunset",
+    mapQuery: "Ridhira Retreat Gandipet Hyderabad",
+  },
+  {
+    index: "02",
+    title: "Taal, Tequila & Tunes",
+    subtitle: "Sync & Sip : Taal Se Taal Mila",
+    message: "You are invited to a night of Rhythm, Revelry & Raised Glasses",
+    day: "Tuesday",
+    dateNum: "25",
+    month: "Aug",
+    year: "2026",
+    time: "07:30 PM onwards",
+    timeNote: "Followed by Dinner",
+    venueName: "Neo Convention",
+    venueAddress: "Shankarpalli Road, Janwada, Hyderabad",
+    dresscode: "Glitter, shimmer & sparkle",
+    dresscodeDetail: "in any colour",
+    image: "/images/a_moment.jpg",
+    imagePosition: "50% 35%",
+    mood: "midnight",
+    mapQuery: "Neo Convention Shankarpalli Road Janwada Hyderabad",
+  },
+  {
+    index: "03",
+    title: "Pellikuthuru",
+    message: "You are invited to a day of love, laughter and golden traditions before the sacred journey unfolds",
+    day: "Wednesday",
+    dateNum: "26",
+    month: "Aug",
+    year: "2026",
+    time: "11:00 AM onwards",
+    timeNote: "Followed by Lunch & High-Tea",
+    venueName: "Bhumi Farms",
+    venueAddress: "Green Acres Farmlands, Near Chilkuri Balaji temple, Hyderabad",
+    dresscode: "Vintage",
+    image: "/images/yay.jpg",
+    imagePosition: "50% 30%",
+    mood: "heritage",
+    mapQuery: "Green Acres Farmlands Chilkur Balaji Temple Hyderabad",
+  },
+  {
+    index: "04",
+    title: "Wedding",
+    subtitle: "Sumuhurtham · 11:07 AM",
+    message: "You are invited to an auspicious day of sacred vows & eternal love",
+    day: "Thursday",
+    dateNum: "27",
+    month: "Aug",
+    year: "2026",
+    time: "Sumuhurtham 11:07 AM",
+    venueName: "Neo Convention",
+    venueAddress: "Shankarpalli Road, Janwada, Hyderabad",
+    dresscode: "Traditional",
+    tagline: "A Promise For A Lifetime",
+    image: "/images/wedding.jpg",
+    imagePosition: "50% 35%",
+    mood: "sacred",
+    mapQuery: "Neo Convention Shankarpalli Road Janwada Hyderabad",
+  },
+];
+
+const defaultGallery: GalleryItem[] = [
+  { src: "/images/awww.jpg", alt: "Sriya and Janak on the illuminated engagement stage", span: "tall" },
+  { src: "/images/yes.jpg", alt: "The couple in a quiet golden moment", span: "wide" },
+  { src: "/images/yay.jpg", alt: "Sriya seated among roses in a golden saree", span: "tall" },
+  { src: "/images/hey.jpg", alt: "The couple beneath a marbled arch of light", span: "tall" },
+  { src: "/images/a_moment.jpg", alt: "The ring ceremony on stage", span: "wide" },
+  { src: "/images/mesmarizing.jpg", alt: "The couple silhouetted in golden light", span: "tall" },
+  { src: "/images/wedding.jpg", alt: "The couple beneath a crystal chandelier", span: "tall" },
+  { src: "/images/fam.jpg", alt: "Both families beneath a floral arch", span: "wide" },
+  { src: "/images/ring.jpg", alt: "Sriya and Janak reaching for each other's hands", span: "tall" },
+];
 
 export interface WeddingSettings {
   invocation: string;
