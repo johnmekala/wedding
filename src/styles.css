@@ -1,0 +1,478 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Design system definition.
+ *
+ * The @theme inline block maps CSS custom properties to Tailwind utility
+ * classes (e.g. --color-primary -> bg-primary, text-primary).
+ *
+ * The :root and .dark blocks define the actual color values using oklch.
+ * All colors MUST use oklch format.
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root (light value) and .dark (dark value)
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.25rem;
+
+  /* Wedding palette */
+  --ivory: oklch(0.975 0.012 88);
+  --parchment: oklch(0.951 0.021 84);
+  --parchment-deep: oklch(0.912 0.03 82);
+  --maroon: oklch(0.352 0.128 24);
+  --maroon-deep: oklch(0.252 0.098 25);
+  --temple-green: oklch(0.398 0.062 148);
+  --gold: oklch(0.706 0.096 78);
+  --gold-deep: oklch(0.588 0.094 72);
+  --gold-light: oklch(0.842 0.062 84);
+  --champagne: oklch(0.906 0.036 88);
+  --beige: oklch(0.878 0.028 80);
+  --peach: oklch(0.878 0.048 62);
+  --blush: oklch(0.878 0.036 12);
+  --terracotta: oklch(0.612 0.114 42);
+  --charcoal: oklch(0.212 0.014 40);
+  --nearblack: oklch(0.142 0.012 45);
+  --amber: oklch(0.732 0.132 62);
+  --diya-warm: oklch(0.78 0.15 55);
+
+  --background: var(--ivory);
+  --foreground: var(--charcoal);
+  --card: var(--parchment);
+  --card-foreground: var(--charcoal);
+  --popover: var(--ivory);
+  --popover-foreground: var(--charcoal);
+  --primary: var(--maroon);
+  --primary-foreground: var(--ivory);
+  --secondary: var(--parchment);
+  --secondary-foreground: var(--maroon);
+  --muted: var(--parchment-deep);
+  --muted-foreground: oklch(0.502 0.02 45);
+  --accent: var(--gold);
+  --accent-foreground: var(--maroon-deep);
+  --destructive: oklch(0.512 0.18 27);
+  --destructive-foreground: var(--ivory);
+  --border: oklch(0.842 0.034 82);
+  --input: oklch(0.842 0.034 82);
+  --ring: var(--gold-deep);
+
+  --gradient-gold: linear-gradient(
+    100deg,
+    var(--gold-deep) 0%,
+    var(--gold-light) 32%,
+    var(--gold) 54%,
+    var(--gold-deep) 78%,
+    var(--gold-light) 100%
+  );
+  --gradient-veil: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--nearblack) 82%, transparent) 0%,
+    color-mix(in oklab, var(--nearblack) 22%, transparent) 42%,
+    color-mix(in oklab, var(--nearblack) 78%, transparent) 100%
+  );
+  --gradient-sacred: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--maroon-deep) 90%, transparent) 0%,
+    color-mix(in oklab, var(--maroon-deep) 45%, transparent) 50%,
+    transparent 100%
+  );
+  --gradient-diya: radial-gradient(
+    ellipse at 50% 100%,
+    color-mix(in oklab, var(--diya-warm) 70%, transparent) 0%,
+    color-mix(in oklab, var(--amber) 40%, transparent) 30%,
+    transparent 70%
+  );
+  --shadow-frame: 0 40px 90px -40px color-mix(in oklab, var(--nearblack) 55%, transparent);
+  --shadow-gold: 0 0 0 1px color-mix(in oklab, var(--gold) 45%, transparent),
+    0 24px 60px -30px color-mix(in oklab, var(--gold-deep) 55%, transparent);
+  --shadow-diya: 0 0 30px 8px color-mix(in oklab, var(--amber) 55%, transparent),
+    0 0 80px 20px color-mix(in oklab, var(--diya-warm) 25%, transparent);
+  --ease-silk: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@theme inline {
+  --color-ivory: var(--ivory);
+  --color-parchment: var(--parchment);
+  --color-parchment-deep: var(--parchment-deep);
+  --color-maroon: var(--maroon);
+  --color-maroon-deep: var(--maroon-deep);
+  --color-temple: var(--temple-green);
+  --color-gold: var(--gold);
+  --color-gold-deep: var(--gold-deep);
+  --color-gold-light: var(--gold-light);
+  --color-champagne: var(--champagne);
+  --color-beige: var(--beige);
+  --color-peach: var(--peach);
+  --color-blush: var(--blush);
+  --color-terracotta: var(--terracotta);
+  --color-charcoal: var(--charcoal);
+  --color-nearblack: var(--nearblack);
+  --color-amber: var(--amber);
+  --color-diya: var(--diya-warm);
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-heading: "Marcellus", Georgia, serif;
+  --font-body: "Jost", system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--ivory);
+    color: var(--charcoal);
+    font-family: var(--font-body);
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 300;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--gold) 40%, transparent);
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+@utility font-heading {
+  font-family: var(--font-heading);
+}
+
+@utility text-gold-foil {
+  background: var(--gradient-gold);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+@utility label-caps {
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.42em;
+  font-size: 0.66rem;
+  font-weight: 400;
+}
+
+@utility parchment-grain {
+  background-color: var(--parchment);
+  background-image:
+    radial-gradient(
+      circle at 18% 12%,
+      color-mix(in oklab, var(--peach) 40%, transparent) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 84% 82%,
+      color-mix(in oklab, var(--champagne) 60%, transparent) 0%,
+      transparent 50%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+@utility parchment-rich {
+  background-color: oklch(0.955 0.022 82);
+  background-image:
+    radial-gradient(
+      ellipse at 20% 10%,
+      color-mix(in oklab, var(--peach) 35%, transparent) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 80% 90%,
+      color-mix(in oklab, var(--champagne) 50%, transparent) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 60% 40%,
+      color-mix(in oklab, var(--beige) 25%, transparent) 0%,
+      transparent 60%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+}
+
+@utility wood-grain {
+  background-color: oklch(0.238 0.038 42);
+  background-image:
+    repeating-linear-gradient(
+      92deg,
+      color-mix(in oklab, black 22%, transparent) 0px,
+      transparent 2px,
+      color-mix(in oklab, var(--gold-deep) 6%, transparent) 5px,
+      transparent 9px
+    ),
+    radial-gradient(
+      ellipse at 50% 30%,
+      color-mix(in oklab, var(--terracotta) 22%, transparent) 0%,
+      transparent 70%
+    );
+}
+
+@utility gold-rule {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in oklab, var(--gold) 85%, transparent),
+    transparent
+  );
+}
+
+@utility invitation-border {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--gold) 40%, transparent),
+    inset 0 0 0 4px color-mix(in oklab, var(--gold) 12%, transparent),
+    inset 0 0 0 6px color-mix(in oklab, var(--gold) 20%, transparent);
+}
+
+/* Diya flickering flame animation */
+@keyframes diyaFlicker {
+  0%, 100% { transform: scaleY(1) scaleX(1) translateY(0); opacity: 0.9; }
+  20%       { transform: scaleY(1.08) scaleX(0.92) translateY(-1px); opacity: 1; }
+  40%       { transform: scaleY(0.94) scaleX(1.06) translateY(1px); opacity: 0.85; }
+  60%       { transform: scaleY(1.1) scaleX(0.88) translateY(-2px); opacity: 1; }
+  80%       { transform: scaleY(0.98) scaleX(1.02) translateY(0px); opacity: 0.92; }
+}
+
+/* Light ray sweep */
+@keyframes rayDrift {
+  0%, 100% { transform: rotate(-8deg) scaleY(1); opacity: 0.06; }
+  50%       { transform: rotate(8deg) scaleY(1.12); opacity: 0.14; }
+}
+
+/* Soft atmospheric haze */
+@keyframes hazeDrift {
+  0%,100% { transform: translate3d(-4%,0,0) scale(1.05); opacity: .38; }
+  50%      { transform: translate3d(5%,-3%,0) scale(1.18); opacity: .6; }
+}
+
+/* Petal fall */
+@keyframes petalFall {
+  0%   { transform: translate3d(0,-12vh,0) rotate(0deg); opacity: 0; }
+  12%  { opacity: var(--o); }
+  88%  { opacity: var(--o); }
+  100% { transform: translate3d(var(--dx),108vh,0) rotate(var(--rot)); opacity: 0; }
+}
+
+/* Beam sweep */
+@keyframes beam {
+  0%,100% { transform: translateX(-30%) rotate(14deg); opacity:.12 }
+  50%      { transform: translateX(40%) rotate(14deg); opacity:.3 }
+}
+
+/* Slow zoom */
+@keyframes slowZoom {
+  from { transform: scale(1.0); }
+  to   { transform: scale(1.06); }
+}
+
+/* Cinematic vignette pulse */
+@keyframes vignettePulse {
+  0%,100% { opacity: 0.55; }
+  50%     { opacity: 0.75; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ==========================================
+   CMS Admin Panel Theme — Pure White & Crisp Dark Contrast
+   ========================================== */
+.admin-theme {
+  background-color: #FFFFFF !important;
+  color: #1F2937 !important;
+}
+
+.admin-theme aside {
+  background-color: #F9FAFB !important;
+  border-color: #E5E7EB !important;
+}
+
+.admin-theme nav a {
+  color: #4B5563 !important;
+}
+
+.admin-theme nav a:hover {
+  background-color: #F3F4F6 !important;
+  color: #111827 !important;
+}
+
+.admin-theme nav a[class*="bg-"] {
+  background-color: #5C1D2A !important;
+  color: #FFFFFF !important;
+}
+
+.admin-theme h1,
+.admin-theme h2,
+.admin-theme h3,
+.admin-theme h4 {
+  color: #111827 !important;
+}
+
+.admin-theme .text-gold-light,
+.admin-theme .text-gold {
+  color: #5C1D2A !important;
+}
+
+.admin-theme .text-ivory {
+  color: #111827 !important;
+}
+
+.admin-theme .text-ivory\/50,
+.admin-theme .text-ivory\/60,
+.admin-theme .text-ivory\/70,
+.admin-theme .text-ivory\/80 {
+  color: #6B7280 !important;
+}
+
+.admin-theme .label-caps {
+  color: #6B7280 !important;
+}
+
+.admin-theme div[class*="rounded-lg"][class*="border"],
+.admin-theme div[class*="rounded-md"][class*="border"] {
+  background-color: #FFFFFF !important;
+  border-color: #E5E7EB !important;
+  color: #1F2937 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+.admin-theme input[type="text"],
+.admin-theme input[type="url"],
+.admin-theme input[type="password"],
+.admin-theme input[type="email"],
+.admin-theme input[type="number"],
+.admin-theme textarea,
+.admin-theme select {
+  background-color: #FFFFFF !important;
+  color: #111827 !important;
+  border-color: #D1D5DB !important;
+}
+
+.admin-theme input::placeholder,
+.admin-theme textarea::placeholder {
+  color: #9CA3AF !important;
+}
+
+.admin-theme input:focus,
+.admin-theme textarea:focus,
+.admin-theme select:focus {
+  border-color: #5C1D2A !important;
+  box-shadow: 0 0 0 2px rgba(92, 29, 42, 0.12) !important;
+  outline: none !important;
+}
+
+.admin-theme button[class*="bg-gold"],
+.admin-theme button[class*="bg-primary"],
+.admin-theme .btn-primary {
+  background-color: #5C1D2A !important;
+  color: #FFFFFF !important;
+  border-color: #42121D !important;
+}
+
+.admin-theme button[class*="bg-gold"]:hover,
+.admin-theme button[class*="bg-primary"]:hover {
+  background-color: #42121D !important;
+}
+
+.admin-theme svg[class*="text-gold"],
+.admin-theme svg[class*="text-gold-light"] {
+  color: #5C1D2A !important;
+}
+
+.admin-theme .border-gold,
+.admin-theme .border-gold\/15,
+.admin-theme .border-gold\/20,
+.admin-theme .border-gold\/25,
+.admin-theme .border-gold\/30,
+.admin-theme .border-gold\/40,
+.admin-theme .border-gold\/50 {
+  border-color: #E5E7EB !important;
+}
+
+.admin-theme .bg-gold\/10,
+.admin-theme .bg-gold\/15,
+.admin-theme .bg-gold\/20 {
+  background-color: #F9FAFB !important;
+}
+
+.admin-theme .bg-nearblack,
+.admin-theme .bg-nearblack\/60,
+.admin-theme .bg-nearblack\/95,
+.admin-theme .bg-black\/40,
+.admin-theme .bg-maroon-deep\/30 {
+  background-color: #FFFFFF !important;
+}
+

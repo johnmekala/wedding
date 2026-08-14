@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "wedding": {
+      ".read": true,
+      "rsvp": {
+        ".write": true
+      },
+      ".write": "auth != null"
+    }
+  }
+}
